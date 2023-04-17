@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import IRestaurante from "../../../interfaces/IRestaurante";
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button } from '@mui/material';
 
 
 const AdministracaoRestaurantes = () => {
@@ -13,7 +14,15 @@ const AdministracaoRestaurantes = () => {
             ).catch(err => {
             console.log(err)
         })
-    },[])
+    }, [])
+    
+    const excluir = (restauranteEx: IRestaurante ) => {
+        axios.delete(`http://localhost:8000/api/v2/restaurantes/${restauranteEx.id}/`)
+            .then(() => {
+                const listaRestaurantes = restaurantes.filter(restaurante => restaurante.id !== restauranteEx.id)
+                setRestaurantes([...listaRestaurantes])
+        })
+}
 
     return (
         <TableContainer component={Paper}>
@@ -23,6 +32,12 @@ const AdministracaoRestaurantes = () => {
                         <TableCell>
                             Nome
                         </TableCell>
+                        <TableCell>
+                            Editar
+                        </TableCell>
+                        <TableCell>
+                            Excluir
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -30,6 +45,12 @@ const AdministracaoRestaurantes = () => {
                     <TableRow key={restaurante.id}>
                         <TableCell>
                             {restaurante.nome}
+                        </TableCell>
+                        <TableCell>
+                                <Link to={`/admin/restaurantes/${restaurante.id}/`}>editar</Link>
+                        </TableCell>
+                        <TableCell>
+                            <Button variant='outlined' color='error' onClick={() => excluir(restaurante)}>Excluir</Button>    
                         </TableCell>
                     </TableRow>
                     )}    
