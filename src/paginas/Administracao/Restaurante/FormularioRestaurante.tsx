@@ -1,8 +1,9 @@
-import { TextField, Button, Typography, Box } from '@mui/material'; 
+import { TextField, Button, Typography, Box, Container, Paper } from '@mui/material'; 
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import IRestaurante from '../../../interfaces/IRestaurante';
 import http from '../../../http';
+import { Link as RouterLink } from 'react-router-dom';
 
 const FormularioRestaurante = () => {
     
@@ -40,22 +41,33 @@ const FormularioRestaurante = () => {
     }
 
     return (
-        <Box sx={{display:'flex', flexDirection: "column", alignItems:"center"}}>
-            <Typography component='h1' variant='h6' >Formulário de Restaurantes</Typography>
-            <Box component="form" onSubmit={aoSubmiterForm}>
-                    <TextField
-                        value={nomeRestaurante}
-                        onChange={(e) => {
-                        setNomeRestaurante(e.target.value);
-                        }}
-                        label="Nome do Restaurante"
-                        variant="standard"
-                        fullWidth
-                        required
-                />
-                    <Button sx={{ marginTop: 1}} type="submit" fullWidth variant="outlined">Cadastrar</Button>
+        <>
+
+            <Box>
+                <Container maxWidth='lg' sx={{mt: 1}}>
+                    <Paper sx={{p: 2}}>
+                    <Box sx={{display:'flex', flexDirection: "column", alignItems:"center", flexGrow: 1}}>
+                        <Typography component='h1' variant='h6' >Formulário de Restaurantes</Typography>
+                            <Box component="form" sx={{ width: '100%' }} onSubmit={aoSubmiterForm} >
+                                <TextField
+                                value={nomeRestaurante}
+                                onChange={(e) => {
+                                setNomeRestaurante(e.target.value);
+                                }}
+                                label="Nome do Restaurante"
+                                variant="standard"
+                                fullWidth
+                                required
+                                />
+                                <Button sx={{ marginTop: 1}} type="submit" fullWidth variant="outlined">Cadastrar</Button>
+                            </Box>
+                        </Box>   
+                    </Paper>
+                </Container>
             </Box>
-        </Box>
+
+                                 
+        </>
     )
 }
 export default FormularioRestaurante;
